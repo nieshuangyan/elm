@@ -12,7 +12,8 @@
       <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
     </div>
     <div class="content-right">
-      <div class="pay" :class="getenough">
+      <!-- 阻止事件冒泡 @click.stop.prevent -->
+      <div class="pay" :class="getenough" @click.stop.prevent="parTO">
         {{pay}}
       </div>
     </div>
@@ -55,7 +56,7 @@
         </li>
       </ul>
     </div>
-    <div class="background"></div>
+    <div class="background" @click="hideList"></div>
   </div>
   <!-- <div class="background"></div> -->
 
@@ -240,6 +241,17 @@ export default{
         food.count=0;
       });
     },
+    hideList(){
+      // console.log("click");
+      this.fold=true;
+    },
+    parTO(){
+      if(this.totalPrice===0||this.totalPrice<this.minPrice){
+        return false;
+      }else{
+        window.alert(`支付￥${this.totalPrice}元`);
+      }
+    }
   },
   components:{
     carControl
