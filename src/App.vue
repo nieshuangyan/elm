@@ -21,12 +21,16 @@
         <router-link to="/sellers">商家</router-link>
       </div>
     </div>
-    <router-view :seller="seller"></router-view>
+    <!-- keep-alive保持组件切换一致性 ，当组件在 <keep-alive> 内被切换，保留组件状态或避免重新渲染-->
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import header from './components/header/header.vue'
+import header from './components/header/header.vue';
+import {method} from './common/js/common';
 // import Vue from 'vue'
 // import VueRouter from 'vue-router'
 // Vue.use(VueRouter)
@@ -35,17 +39,24 @@ export default {
   data() {
     return {
       // 发送ajax请求，拿到数据，赋给seller
-      seller:{},
+      seller:{
+        id:(()=>{
+          let ids=method.urlParse("id");
+          console.log(`ids:${ids}`)
+          return ids;
+        })()
+      },
     }
   },
   created(){
-    this.$http.get('/api/seller').then(response => {
+    this.$http.get('/api/seller?id='+this.seller.id).then(response => {
     // get body data
     response = response.body;
     console.log(response)
     if(response.errno===ERR_OK){
-      this.seller=response.data;
-      console.log(this.seller)
+      // this.seller=response.data;
+      this.seller=Object.assign({},this.seller,response.data);
+      console.log(this.seller.id)
     }
   }, response => {
     // error callback

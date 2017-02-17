@@ -5,6 +5,7 @@ var config = require('../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+// 提出css文件，打包到css中
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var env = config.build.env
 

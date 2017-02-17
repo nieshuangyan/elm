@@ -38,26 +38,30 @@
     </div>
     </transition>
   </div> -->
-  <div class="showCar-list" v-show="listShow">
-    <div class="list-header">
-      <h1 class="title">购物车</h1>
-      <span class="empty" @click="clear">清空</span>
+  <transition name="show">
+    <div class="showCar-list" v-show="listShow">
+      <div class="showCarWrapper">
+        <div class="list-header">
+          <h1 class="title">购物车</h1>
+          <span class="empty" @click="clear">清空</span>
+        </div>
+        <div class="list-content" ref="contentwrapper">
+          <ul>
+            <li class="food" v-for="food in selectFoods">
+              <span class="name">{{food.name}}</span>
+              <div class="price">
+                <span>￥{{food.price*food.count}}</span>
+              </div>
+              <div class="carControl-wrapper">
+                <carControl :food="food"><carControl>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="background" @click="hideList"></div>
     </div>
-    <div class="list-content" ref="contentwrapper">
-      <ul>
-        <li class="food" v-for="food in selectFoods">
-          <span class="name">{{food.name}}</span>
-          <div class="price">
-            <span>￥{{food.price*food.count}}</span>
-          </div>
-          <div class="carControl-wrapper">
-            <carControl :food="food"><carControl>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="background" @click="hideList"></div>
-  </div>
+  </transition>
   <!-- <div class="background"></div> -->
 
 </div>
@@ -284,57 +288,67 @@ export default{
   .showCar-list
     position:fixed;
     left:0
+    top:0
     bottom:48px
     width:100%
-    background:#fff
+    // background:#fff
     z-index:-1
-    .list-header
-      // width:100%
+    transition:all .4s linear
+    transform:translate3d(0,0,0)
+    &.show-enter,&.show-leave
+      transform:translate3d(0,100%,0)
+    .showCarWrapper
+      position:fixed
+      bottom:0
+      width:100%
       z-index:1
-      background:#f3f5f7
-      padding:0 18px
-      height:40px
-      line-height:40px
-      border-bottom:.5px solid rgba(7,17,27,.1)
-      .title
-        // display:inline;
-        font-size:14px
-        font-weight:200
-        color:rgb(7,17,27)
-        float:left
-      .empty
-        float:right
-        font-size:12px
-        font-weight:200
-        color:rgb(0,160,220)
-    .list-content
-      z-index:1
-      background:#fff
-      padding:0 18px
-      overflow:hidden
-      max-height:258px
-      .food
-        position:relative
+      .list-header
+        // width:100%
+        // z-index:1
+        background:#f3f5f7
+        padding:0 18px
+        height:40px
+        line-height:40px
         border-bottom:.5px solid rgba(7,17,27,.1)
-        height:48px
-        .name
+        .title
+          // display:inline;
           font-size:14px
+          font-weight:200
           color:rgb(7,17,27)
           float:left
-          line-height:48px
-        .price
+        .empty
           float:right
-          line-height:48px
-          margin-right: 84px
-          font-weight:700
-          padding-right: 12px
-          padding-left: 18px
-          color:rgb(240,20,20)
-        .carControl-wrapper
-          position: absolute;
-          right: 0;
-          top: 6px;
-          /* margin-left: 6px; */
+          font-size:12px
+          font-weight:200
+          color:rgb(0,160,220)
+      .list-content
+        // z-index:1
+        background:#fff
+        padding:0 18px
+        overflow:hidden
+        max-height:258px
+        .food
+          position:relative
+          border-bottom:.5px solid rgba(7,17,27,.1)
+          height:48px
+          .name
+            font-size:14px
+            color:rgb(7,17,27)
+            float:left
+            line-height:48px
+          .price
+            float:right
+            line-height:48px
+            margin-right: 84px
+            font-weight:700
+            padding-right: 12px
+            padding-left: 18px
+            color:rgb(240,20,20)
+          .carControl-wrapper
+            position: absolute;
+            right: 0;
+            top: 6px;
+            /* margin-left: 6px; */
     .background
       position:fixed
       z-index:-1

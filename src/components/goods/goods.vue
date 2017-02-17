@@ -16,7 +16,7 @@
       <li v-for="item in goods" class="food-list food-list-hook">
         <h1 class="title">{{item.name}}</h1>
         <ul class="food-items">
-          <li v-for="food in item.foods" class="food-item">
+          <li v-for="food in item.foods" class="food-item" @click="selectFood(food,$event)">
             <div class="icon">
               <img :src="food.icon" alt="" width="57" height="57">
             </div>
@@ -39,13 +39,15 @@
     </ul>
   </div>
   <showCar ref="showCar" :selectFoods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></showCar>
+  <food :selectedFood="selectedFood" ref="food"></food>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
-import BScroll from "better-scroll"
-import showCar from "../showCar/showCar"
-import carControl from "../carControl/carControl"
+import BScroll from "better-scroll";
+import showCar from "../showCar/showCar";
+import food from "../food/foodd";
+import carControl from "../carControl/carControl";
 const ERR_OK=0;
 export default{
   // 获取从父组件传来的数据,用于接收来自父组件的数据
@@ -55,7 +57,7 @@ export default{
     }
   },
 
-  // Vue 实例的数据对象,定义数据，初始化变量
+  // Vue 实例的数据对象,定义数据，初始化变量,存放观测值，变了有动作
   // [Vue warn]: Property or method "message" is not defined on the instance but referenced during render.
   //  Make sure to declare reactive data properties in the data option.
   data(){
@@ -67,6 +69,7 @@ export default{
       listHeight:[],
       scrollY:0,
       scrollMY:0,
+      selectedFood:{}
       // scrollToIndex:0,
       // 可以定义在这里，也可以定义在created中，classMap仅仅使用在dom中
       // classMap:['decrease','discount','special','invoice','guarantee']
@@ -177,6 +180,14 @@ export default{
       // 访问子组件和自己的dom:this.$refs.showCar
       this.$refs.showCar.carAdd(target)
     },
+    selectFood(food,event){
+      if(!event._constructed){
+        return;
+      }
+      this.selectedFood=food;
+      // 访问子组件food的show方法
+      this.$refs.food.show();
+    }
   },
 
   // getter 和 setter 的 this 自动地绑定到实例,计算属性
@@ -219,7 +230,8 @@ export default{
 
   components:{
     showCar,
-    carControl
+    carControl,
+    food,
   }
 
 }
