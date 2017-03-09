@@ -16,7 +16,7 @@
       <li v-for="item in goods" class="food-list food-list-hook">
         <h1 class="title">{{item.name}}</h1>
         <ul class="food-items">
-          <li v-for="food in item.foods" class="food-item" @click="selectFood(food,$event)">
+          <li v-for="food in item.foods" class="food-item border-1px" @click="selectFood(food,$event)">
             <div class="icon">
               <img :src="food.icon" alt="" width="57" height="57">
             </div>
@@ -290,7 +290,7 @@ export default{
         display:table-cell
         width:56px
         vertical-align:middle
-        border-bottom:1px solid rgba(7,17,27,.1)
+        // border-bottom:1px solid rgba(7,17,27,.1)
         border-1px(rgba(7,17,27,.1))
       &:last-child
         .text
@@ -318,7 +318,7 @@ export default{
         margin:18px
         padding-bottom:18px
         border-1px(rgba(7,17,27,.1))
-        border-bottom:.5px solid rgba(7,17,27,.1)
+        // border-bottom:.5px solid rgba(7,17,27,.1)
         &:last-child
           border-none()
           margin-bottom:0

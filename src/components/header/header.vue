@@ -140,9 +140,9 @@ export default{
           background-repeat:no-repeat
           vertical-align:middle
         .name
-          margin-left:6PX
-          font-size:16PX
-          line-height:18PX
+          margin-left:6px
+          font-size:16px
+          line-height:18px
           font-weight:bold
           vertical-align:middle
       .description
